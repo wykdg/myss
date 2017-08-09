@@ -36,7 +36,7 @@ class Socks5Server(SocketServer.StreamRequestHandler):
             pass
             sock = self.connection
             remote_addr=sock.recv(262)
-            encrypt.MyDESCrypt.decrypt(remote_addr)
+            remote_addr=encrypt.Encrypt().decrypt(remote_addr)
             sock.send("\x00")
 
 
