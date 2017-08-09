@@ -1,4 +1,4 @@
-import queue
+
 import struct
 class Encrypt:
     def __init__(self):
@@ -6,11 +6,17 @@ class Encrypt:
         self.last_len=None
 
     def encrypt(self,buf):
+        # print buf
+
+        if len(buf)==0:
+            return buf
         head=struct.pack('i',len(buf))
         return head+buf
 
 
     def decrypt(self,buf):
+        # print buf
+
         self.buf+=buf
         data=''
         while True:
@@ -25,8 +31,8 @@ class Encrypt:
 
             if self.last_len<=len(self.buf):
 
-                data+=self.buf[:self.last_len]
-
+                slice=self.buf[:self.last_len]
+                data+=slice
                 self.buf=self.buf[self.last_len:]
                 self.last_len=None
             else:
