@@ -23,15 +23,15 @@ class Socks5Server(SocketServer.StreamRequestHandler):
         try:
             pass
             sock = self.connection
-
             remote_addr=sock.recv(262)
             sock.send("\x00")
 
-            addr,port=remote_addr.split(':')
+
+            remote_ip,port=remote_addr.split(':')
             port=int(port)
 
             remote = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            remote.connect((addr,port))
+            remote.connect((remote_ip,port))
 
             self.handle_tcp(sock, remote)
         except socket.error:
