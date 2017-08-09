@@ -8,7 +8,7 @@ import socket, sys, select, SocketServer, struct, time
 import encrypt
 
 class ThreadingTCPServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer): pass
-server_addr=('127.0.0.1',1100)
+server_addr=('127.0.0.1',1101)
 
 class Socks5Server(SocketServer.StreamRequestHandler):
 
@@ -56,7 +56,9 @@ class Socks5Server(SocketServer.StreamRequestHandler):
                     # remote.connect((addr,port[0]))
                     remote.connect(server_addr)
                     # print (addr,port[0])
-                    remote.send(addr+':'+str(port[0]))
+                    addr_send=addr+':'+str(port[0])
+                    addr_send=encrypt.MyDESCrypt().ecrypt(addr_send)
+                    remote.send(addr_send)
                     remote.recv(1)
                     pass  # print 'To', addr, port[0] nothing do to.
                 else:
