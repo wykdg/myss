@@ -1,16 +1,19 @@
 
+from crypto_aes import MyDESCrypt
 import struct
 class Encrypt:
     def __init__(self):
         self.buf=''
         self.last_len=None
-
+        self.des=MyDESCrypt()
     def encrypt(self,buf):
         # print buf
 
         if len(buf)==0:
             return buf
+        buf=self.des.ecrypt(buf)
         head=struct.pack('i',len(buf))
+
         return head+buf
 
 
@@ -32,6 +35,7 @@ class Encrypt:
             if self.last_len<=len(self.buf):
 
                 slice=self.buf[:self.last_len]
+                slice=self.des.decrypt(slice)
                 data+=slice
                 self.buf=self.buf[self.last_len:]
                 self.last_len=None
